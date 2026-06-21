@@ -4,10 +4,7 @@ pydantic==2.10.4
 httpx==0.28.1
 python-dotenv==1.0.1
 pytest==8.3.4
-<<<<<<< HEAD
 numpy
 scikit-learn
 xgboost
 joblib
-=======
->>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a

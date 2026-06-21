@@ -82,7 +82,6 @@ class RiskResult(BaseModel):
     model_used: str
 
 
-<<<<<<< HEAD
 class MLPredictRequest(BaseModel):
     event_type: EventType = EventType.unplanned
     event_cause: str = Field(..., alias="cause")
@@ -127,8 +126,6 @@ class MLStatus(BaseModel):
     featureColumns: list[str] = Field(default_factory=list)
 
 
-=======
->>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
 class DisruptionEvent(BaseModel):
     id: str
     ts: int
