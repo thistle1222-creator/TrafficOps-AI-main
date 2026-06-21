@@ -12,8 +12,11 @@ from fastapi.responses import StreamingResponse
 from app.api.routers import activity, advisory, agent, auth, events, forecast, settings, state, system_health
 from app.core.config import get_settings
 from app.services.store import store
+<<<<<<< HEAD
 from app.api.routers import ml
 from app.api.routers.ml import init_service_from_settings
+=======
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
 
 
 async def auto_inject_loop() -> None:
@@ -26,6 +29,7 @@ async def auto_inject_loop() -> None:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     task = asyncio.create_task(auto_inject_loop())
+<<<<<<< HEAD
     # initialize ML service if available
     try:
         app.state.ml_service = init_service_from_settings()
@@ -34,6 +38,8 @@ async def lifespan(app: FastAPI):
     except Exception:
         # initialization failures are already logged inside the service
         app.state.ml_service = None
+=======
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
     try:
         yield
     finally:
@@ -64,7 +70,10 @@ app.include_router(system_health.router, prefix=cfg.api_prefix)
 app.include_router(forecast.router, prefix=cfg.api_prefix)
 app.include_router(advisory.router, prefix=cfg.api_prefix)
 app.include_router(activity.router, prefix=cfg.api_prefix)
+<<<<<<< HEAD
 app.include_router(ml.router, prefix=cfg.api_prefix)
+=======
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
 
 
 @app.get("/")

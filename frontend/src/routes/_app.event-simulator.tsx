@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageHeader } from "@/components/AppLayout";
+<<<<<<< HEAD
 import { computeRisk, severityFromScore, severityColor, recommendationFor, CAUSES, ZONES, JUNCTIONS, type CauseName, type Zone } from "@/lib/mock-data";
+=======
+import { computeRisk, severityFromScore, severityColor, recommendationFor, CAUSES, ZONES, type CauseName, type Zone } from "@/lib/mock-data";
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
 import { WhyScore } from "@/components/WhyScore";
 import { Zap } from "lucide-react";
 
@@ -11,6 +15,7 @@ export const Route = createFileRoute("/_app/event-simulator")({
 });
 
 const STEPS = ["Collecting Context", "Analyzing Weather", "Running Predictive Models", "Calculating Risk", "Generating Recommendations"];
+<<<<<<< HEAD
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000/api";
 
 type PredictionResponse = {
@@ -27,11 +32,16 @@ type SimulatorResult = ReturnType<typeof computeRisk> & {
   modelUsed: string;
   message?: string;
 };
+=======
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
 
 function EventSim() {
   const [cause, setCause] = useState<CauseName>("Public Gathering");
   const [zone, setZone] = useState<Zone>("MG Road");
+<<<<<<< HEAD
   const [junction, setJunction] = useState<string>(JUNCTIONS["MG Road"][0]);
+=======
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
   const [crowd, setCrowd] = useState(5000);
   const [hour, setHour] = useState(18);
   const [weather, setWeather] = useState("Clear");
@@ -39,6 +49,7 @@ function EventSim() {
   const [duration, setDuration] = useState(120);
   const [running, setRunning] = useState(false);
   const [step, setStep] = useState(0);
+<<<<<<< HEAD
   const [result, setResult] = useState<SimulatorResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,16 +59,34 @@ function EventSim() {
     setError(null);
     setStep(0);
 
+=======
+  const [result, setResult] = useState<ReturnType<typeof computeRisk> | null>(null);
+
+  function analyze() {
+    setRunning(true); setResult(null); setStep(0);
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
     let s = 0;
     const t = setInterval(() => {
       s++; setStep(s);
       if (s >= STEPS.length) {
         clearInterval(t);
+<<<<<<< HEAD
         submitPrediction();
+=======
+        const r = computeRisk({ cause, durationMin: duration, requiresClosure: closure, hour, isWeekend: false });
+        // crowd factor
+        const crowdBoost = Math.min(20, Math.floor(crowd / 1000));
+        r.score = Math.min(100, r.score + crowdBoost);
+        r.factors.push({ label: `Crowd: ${crowd.toLocaleString()}`, value: crowdBoost });
+        if (weather === "Heavy Rain") { r.score = Math.min(100, r.score + 10); r.factors.push({ label: "Weather: Heavy Rain", value: 10 }); }
+        setResult(r);
+        setRunning(false);
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
       }
     }, 600);
   }
 
+<<<<<<< HEAD
   async function submitPrediction() {
     const baseline = computeRisk({ cause, durationMin: duration, requiresClosure: closure, hour, isWeekend: false });
     const crowdBoost = Math.min(20, Math.floor(crowd / 1000));
@@ -124,6 +153,8 @@ function EventSim() {
     }
   }
 
+=======
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
   const sev = result ? severityFromScore(result.score) : null;
 
   return (
@@ -139,6 +170,7 @@ function EventSim() {
             </select>
           </Field>
           <Field label="VENUE / ZONE">
+<<<<<<< HEAD
             <select
               value={zone}
               onChange={(e) => {
@@ -156,6 +188,12 @@ function EventSim() {
               {JUNCTIONS[zone].map((j) => <option key={j}>{j}</option>)}
             </select>
           </Field>
+=======
+            <select value={zone} onChange={(e) => setZone(e.target.value as Zone)} className="input">
+              {ZONES.map((z) => <option key={z}>{z}</option>)}
+            </select>
+          </Field>
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
           <Field label={`EXPECTED CROWD · ${crowd.toLocaleString()}`}>
             <input type="range" min={500} max={50000} step={500} value={crowd} onChange={(e) => setCrowd(+e.target.value)} className="w-full accent-[var(--primary)]" />
           </Field>
@@ -198,7 +236,11 @@ function EventSim() {
             </div>
           )}
 
+<<<<<<< HEAD
           {!running && !result && !error && (
+=======
+          {!running && !result && (
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
             <div className="h-full flex items-center justify-center text-center">
               <div>
                 <p className="mono text-xs text-muted-foreground">Configure event parameters and run analysis.</p>
@@ -207,6 +249,7 @@ function EventSim() {
             </div>
           )}
 
+<<<<<<< HEAD
           {error && (
             <div className="mb-6 rounded border border-red-400 bg-red-950/10 p-4 text-sm text-red-300">
               <strong className="mono text-[10px] uppercase tracking-wider">ML API error</strong>
@@ -214,6 +257,8 @@ function EventSim() {
             </div>
           )}
 
+=======
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
           {result && sev && (
             <div className="fade-up">
               <div className="flex items-center gap-6 mb-6">
@@ -222,6 +267,7 @@ function EventSim() {
                   <div className="text-[10px] mono text-muted-foreground tracking-wider">SEVERITY</div>
                   <div className="mono text-3xl" style={{ color: severityColor(sev) }}>{sev.toUpperCase()}</div>
                   <div className="text-xs text-muted-foreground mt-1 max-w-md">{recommendationFor(cause, sev)}</div>
+<<<<<<< HEAD
                   <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
                     <div className="hud-card p-2 bg-slate-950/70 border border-slate-800">
                       <div className="mono text-[10px] text-muted-foreground">PREDICTED PRIORITY</div>
@@ -240,6 +286,8 @@ function EventSim() {
                       <div className="mono text-sm mt-1">{result.message ?? "Prediction complete."}</div>
                     </div>
                   </div>
+=======
+>>>>>>> 507eb113578c8e59877a9e421dfc5428083ad34a
                   <WhyScore factors={result.factors} />
                 </div>
               </div>
